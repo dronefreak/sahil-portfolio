@@ -1,0 +1,40 @@
+---
+import { services } from '../data/services';
+import { skills } from '../data/skills';
+import { site } from '../data/site';
+
+const proof = Object.fromEntries(skills.map((s) => [s.name, s.proof]));
+const bars = ['border-amber', 'border-signal', 'border-chalk'];
+---
+
+<section id="services" class="bg-royal px-6 py-20 text-white">
+  <div class="mx-auto max-w-6xl">
+    <p class="mb-3 flex items-center gap-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-white/80">
+      <span class="h-0.5 w-8 bg-amber" aria-hidden="true"></span>Services
+    </p>
+    <h2 class="mb-10 font-display text-4xl font-bold uppercase leading-none sm:text-5xl">
+      What I can <span class="rounded bg-ink px-2 text-amber">help with</span>
+    </h2>
+
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      {services.map((s, i) => (
+        <li class={`flex flex-col rounded-xl border-t-4 bg-ink p-5 text-chalk ${bars[i % bars.length]}`}>
+          <span class="mb-3 font-display text-3xl font-bold text-chalk/25" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="mb-2 font-display text-xl font-bold uppercase leading-tight text-white">{s.title}</h3>
+          <p class="mb-4 text-sm text-chalk/75">{s.blurb}</p>
+          <p class="mt-auto border-t border-chalk/15 pt-3 text-xs text-chalk/50">
+            <span class="font-semibold uppercase tracking-wider text-amber">At</span> {proof[s.skill]}
+          </p>
+        </li>
+      ))}
+
+      <li class="flex flex-col justify-between rounded-xl border-2 border-dashed border-white/50 p-5">
+        <div>
+          <h3 class="mb-2 font-display text-xl font-bold uppercase leading-tight">Need guidance?</h3>
+          <p class="text-sm text-white/90">Thinking about a career in sports events, or planning one? Book a consultation.</p>
+        </div>
+        <a href={site.links.topmate} target="_blank" rel="noopener" class="btn-primary mt-5 self-start !bg-ink hover:!bg-white">Book a call</a>
+      </li>
+    </ul>
+  </div>
+</section>
