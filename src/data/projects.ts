@@ -61,5 +61,5 @@ export const projects: Project[] = [
   { name: 'Formula 1 Dutch Grand Prix', year: 2023, date: 'Aug 2023', role: 'Ticketing & Hospitality Volunteer', place: 'Netherlands', tags: ['guest'], logo: formula1, photo: dutchGp, focus: '50% 75%' },
   { name: 'European Para Championships', year: 2023, date: 'Aug 2023', role: 'Media & Communication Volunteer', place: 'Netherlands', tags: ['broadcast'], logo: paraEuro, photo: paraEuroPhoto, focus: '50% 90%' },
 
-  { name: 'Octa League', year: 2022, date: '2022', role: 'Event Organizer', place: '', tags: ['ops'] },
+  // Octa League (2022, Event Organizer) is left out until Sahil sends more details.
 ];
