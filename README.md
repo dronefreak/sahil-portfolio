@@ -1,43 +1,42 @@
-# Astro Starter Kit: Minimal
+# Sahil Kolhe: portfolio
+
+A one-page portfolio for Sahil Kolhe, sports event specialist. Built with [Astro](https://astro.build), TypeScript and Tailwind CSS 4.
+
+## Run it
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # production build into dist/
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Where to change things
 
-## 🚀 Project Structure
+Most content is plain data, so you rarely need to touch the components.
 
-Inside of your Astro project, you'll see the following folders and files:
+| To change… | Edit |
+| --- | --- |
+| Name, headline, typewriter roles, stats, social links | `src/data/site.ts` |
+| Events in the Experience section (dates, roles, photos, logos) | `src/data/projects.ts` |
+| Logos in the scrolling strip under the hero | `src/data/eventLogos.ts` |
+| Skills in the hero constellation (and the "At…" lines on Services) | `src/data/skills.ts` |
+| Services cards | `src/data/services.ts` |
+| Education cards | `src/data/education.ts` |
+| Colours and fonts | `src/styles/global.css` (the `@theme` block) |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+### Common jobs
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+- **Replace the resume:** overwrite `public/resume.pdf` with the real file, keeping the same name.
+- **Replace the hero avatar:** overwrite `src/assets/sahil-avatar.jpg`. The crop is set in `src/components/Hero.astro`, so a photo with the face in a different spot may need the `transform-origin` and `translate` values adjusted.
+- **Add an event:** add a logo to `src/assets/logos/`, a photo to `src/assets/events/` (optional), then add an entry to `src/data/projects.ts`. Newest first.
+- **Social preview image:** `public/og.png` (1200×630). It only shows up once `site` is set (below).
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Before launch
 
-Any static assets, like images, can be placed in the `public/` directory.
+- Set `site` in `astro.config.mjs` to the final URL, for example `site: 'https://sahilkolhe.com'`. This switches on the canonical link and the link-preview image.
+- Replace the placeholder `public/resume.pdf`.
+- Confirm the Instagram link in `src/data/site.ts`.
 
-## 🧞 Commands
+## Parked
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`archive/` holds the About section, removed for now because it was too text-heavy. It is not part of the build.
