@@ -22,9 +22,8 @@ import { education } from '../data/education';
           <p class="mt-3 text-chalk/70">
             {d.school}{d.place && <span class="text-chalk/40"> · {d.place}</span>}
           </p>
-          {d.grade && <p class="mt-1 text-sm text-chalk/60">Grade: {d.grade}</p>}
           {d.activities && (
-            <ul class="mt-4 flex flex-wrap gap-2" aria-label="Activities and societies">
+            <ul class="mt-4 flex flex-wrap gap-2" aria-label="Skills and activities">
               {d.activities.map((a) => (
                 <li class="rounded-full border border-royal/50 bg-royal/10 px-3 py-1 text-xs text-chalk/80">{a}</li>
               ))}
