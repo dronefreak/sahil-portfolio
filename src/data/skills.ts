@@ -13,12 +13,12 @@ export const skills: Skill[] = [
   { name: 'Ticketing', x: 0.78, y: 0.18, color: '#e1811f', proof: 'Formula 1 Dutch GP · UEFA Super Cup' },
   { name: 'Hospitality', x: 0.86, y: 0.42, color: '#e1811f', proof: 'Formula 1 Dutch GP' },
   // Transport (bottom)
-  { name: 'Event Transport', x: 0.3, y: 0.7, color: '#8e9bf0', proof: 'UEFA Women’s Champions League Final' },
-  { name: 'VIP Transport', x: 0.14, y: 0.88, color: '#8e9bf0', proof: 'Paris 2024 Olympics' },
+  { name: 'Event Transport', x: 0.26, y: 0.64, color: '#8e9bf0', proof: 'UEFA Women’s Champions League Final' },
+  { name: 'VIP Transport', x: 0.1, y: 0.86, color: '#8e9bf0', proof: 'Paris 2024 Olympics' },
   // Operations (bottom right)
-  { name: 'Volunteer Mgmt', x: 0.62, y: 0.62, color: '#eeeded', proof: 'Paris 2024 · Asian Games' },
-  { name: 'Venue Mgmt', x: 0.82, y: 0.72, color: '#eeeded', proof: 'Tchoukball Nations Cup · Asian Games' },
-  { name: 'Stakeholders', x: 0.5, y: 0.86, color: '#eeeded', proof: 'Every event' },
+  { name: 'Volunteer Mgmt', x: 0.62, y: 0.54, color: '#eeeded', proof: 'Paris 2024 · Asian Games' },
+  { name: 'Venue Mgmt', x: 0.84, y: 0.78, color: '#eeeded', proof: 'Tchoukball Nations Cup · Asian Games' },
+  { name: 'Stakeholders', x: 0.46, y: 0.9, color: '#eeeded', proof: 'Every event' },
 ];
 
 export const links: [string, string][] = [

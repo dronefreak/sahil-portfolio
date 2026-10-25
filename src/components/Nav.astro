@@ -13,7 +13,7 @@ import Icon from './Icon.astro';
       {site.name}
     </a>
 
-    <ul class="hidden items-center gap-8 md:flex">
+    <ul class="hidden items-center gap-8 lg:flex">
       {site.nav.map((link) => (
         <li>
           <a
@@ -27,7 +27,7 @@ import Icon from './Icon.astro';
       ))}
     </ul>
 
-    <div class="hidden items-center gap-3 md:flex">
+    <div class="hidden items-center gap-3 lg:flex">
       <a href={site.links.resume} download="Sahil-Kolhe-Resume.pdf" class="btn-secondary !px-4 !py-1.5 !text-sm">
         <Icon name="download" class="size-4" />
         Resume
@@ -40,7 +40,7 @@ import Icon from './Icon.astro';
     <button
       id="nav-toggle"
       type="button"
-      class="flex size-9 flex-col items-center justify-center gap-1.5 md:hidden"
+      class="flex size-9 flex-col items-center justify-center gap-1.5 lg:hidden"
       aria-label="Open menu"
       aria-expanded="false"
       aria-controls="nav-menu"
@@ -51,7 +51,7 @@ import Icon from './Icon.astro';
     </button>
   </nav>
 
-  <div id="nav-menu" hidden class="border-b border-white/10 bg-ink/95 backdrop-blur-xl md:hidden">
+  <div id="nav-menu" hidden class="border-b border-white/10 bg-ink/95 backdrop-blur-xl lg:hidden">
     <ul class="flex flex-col gap-1 px-6 py-4">
       {site.nav.map((link) => (
         <li>
