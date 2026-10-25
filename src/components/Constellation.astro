@@ -1,0 +1,146 @@
+---
+import { skills, links } from '../data/skills';
+---
+
+<!-- Skills as glowing nodes. Signals travel along the links; hover or touch a node to light up its connections. -->
+<div
+  id="constellation"
+  class="relative aspect-[4/3] w-full touch-pan-y"
+  role="img"
+  aria-label={`Skills: ${skills.map((s) => s.name).join(', ')}`}
+  data-skills={JSON.stringify(skills)}
+  data-links={JSON.stringify(links)}
+>
+  <canvas class="absolute inset-0 h-full w-full"></canvas>
+</div>
+
+<script>
+  import type { Skill } from '../data/skills';
+
+  const box = document.getElementById('constellation') as HTMLDivElement;
+  const cv = box.querySelector('canvas') as HTMLCanvasElement;
+  const ctx = cv.getContext('2d')!;
+  const nodes: Skill[] = JSON.parse(box.dataset.skills!);
+  const idx = Object.fromEntries(nodes.map((n, i) => [n.name, i]));
+  const edges: [number, number][] = (JSON.parse(box.dataset.links!) as [string, string][]).map(([a, b]) => [idx[a], idx[b]]);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let W = 0;
+  let H = 0;
+  let visible = true;
+  let mx = -1;
+  let my = -1;
+
+  const size = () => {
+    const r = box.getBoundingClientRect();
+    if (!r.width) return;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    W = r.width;
+    H = r.height;
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  new ResizeObserver(size).observe(box);
+  new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(box);
+  size();
+
+  box.addEventListener('pointermove', (e) => {
+    const r = box.getBoundingClientRect();
+    mx = e.clientX - r.left;
+    my = e.clientY - r.top;
+  });
+  box.addEventListener('pointerleave', () => (mx = my = -1));
+
+  const draw = (t: number) => {
+    const small = W < 360;
+    const pos = nodes.map((n, i) => [
+      n.x * W + Math.sin(t * 0.0006 + i * 1.7) * 5,
+      n.y * H + Math.cos(t * 0.0005 + i * 2.3) * 5,
+    ]);
+
+    let hot = -1;
+    let best = 36;
+    pos.forEach((p, i) => {
+      const d = Math.hypot(p[0] - mx, p[1] - my);
+      if (d < best) {
+        best = d;
+        hot = i;
+      }
+    });
+    const lit = new Set<number>();
+    if (hot >= 0) {
+      lit.add(hot);
+      edges.forEach(([a, b]) => {
+        if (a === hot) lit.add(b);
+        if (b === hot) lit.add(a);
+      });
+    }
+
+    edges.forEach(([a, b], k) => {
+      const on = hot < 0 || a === hot || b === hot;
+      ctx.strokeStyle = on ? `rgba(142,155,240,${hot < 0 ? 0.28 : 0.7})` : 'rgba(142,155,240,0.07)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pos[a][0], pos[a][1]);
+      ctx.lineTo(pos[b][0], pos[b][1]);
+      ctx.stroke();
+      if (on) {
+        const u = (t * 0.00035 + k * 0.37) % 1;
+        ctx.fillStyle = 'rgba(238,237,237,0.9)';
+        ctx.beginPath();
+        ctx.arc(pos[a][0] + (pos[b][0] - pos[a][0]) * u, pos[a][1] + (pos[b][1] - pos[a][1]) * u, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+
+    ctx.font = `600 ${small ? 10 : 12}px "Inter Variable", system-ui, sans-serif`;
+    ctx.textBaseline = 'middle';
+    nodes.forEach((n, i) => {
+      const [x, y] = pos[i];
+      const r = (i === hot ? 9 : 7) * (small ? 0.85 : 1);
+      ctx.globalAlpha = hot >= 0 && !lit.has(i) ? 0.3 : 1;
+
+      const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3.2);
+      g.addColorStop(0, `${n.color}66`);
+      g.addColorStop(1, `${n.color}00`);
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, y, r * 3.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#201c1c';
+      ctx.strokeStyle = n.color;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = n.color;
+      ctx.beginPath();
+      ctx.arc(x, y, r * 0.38, 0, Math.PI * 2);
+      ctx.fill();
+
+      const left = n.x > 0.7;
+      ctx.textAlign = left ? 'right' : 'left';
+      ctx.fillStyle = i === hot ? '#ffffff' : n.color;
+      ctx.fillText(n.name, x + (left ? -(r + 7) : r + 7), y);
+      ctx.globalAlpha = 1;
+    });
+
+    // Caption: where the hovered skill was used
+    ctx.textAlign = 'center';
+    ctx.font = `500 ${small ? 10 : 11}px "Inter Variable", system-ui, sans-serif`;
+    ctx.fillStyle = 'rgba(238,237,237,0.55)';
+    ctx.fillText(hot >= 0 ? nodes[hot].proof : 'Hover a skill to see where I used it', W / 2, H - 6);
+  };
+
+  const frame = (t: number) => {
+    if (W > 0 && visible) {
+      ctx.clearRect(0, 0, W, H);
+      draw(reduce ? 0 : t);
+    }
+    requestAnimationFrame(frame);
+  };
+  requestAnimationFrame(frame);
+</script>

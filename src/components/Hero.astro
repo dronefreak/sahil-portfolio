@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import photo from '../assets/sahil-placeholder.svg';
+import photo from '../assets/sahil-portrait.jpg';
+import Constellation from './Constellation.astro';
 import Icon from './Icon.astro';
 import LogoStrip from './LogoStrip.astro';
 import { site } from '../data/site';
@@ -11,6 +12,11 @@ const socials = [
   { label: 'Email', href: site.links.email, icon: 'mail' },
   { label: 'Topmate', href: site.links.topmate, icon: 'calendar' },
 ] as const;
+interface Props {
+  /** 'photo' = profile picture card, 'constellation' = animated skills map */
+  variant?: 'photo' | 'constellation';
+}
+const { variant = 'photo' } = Astro.props;
 ---
 
 <section id="home" class="relative overflow-hidden bg-ink text-chalk">
@@ -87,12 +93,18 @@ const socials = [
       <!-- Right: profile card with photo and stats -->
       <div class="reveal glass-card w-full p-5 md:max-w-lg md:justify-self-end md:p-6" style="--d: 0.3s">
         <div class="mb-3 flex items-center justify-between font-display text-[11px] font-semibold uppercase tracking-[0.14em]">
-          <span class="text-chalk/40">Profile &amp; stats</span>
+          <span class="text-chalk/40">{variant === 'photo' ? 'Profile & stats' : 'Skills & stats'}</span>
         </div>
 
-        <div class="aspect-[4/3] overflow-hidden rounded-lg border-b-4 border-signal">
-          <Image src={photo} alt={`Portrait of ${site.name}`} class="h-full w-full object-cover object-top" loading="eager" />
-        </div>
+        {variant === 'photo' ? (
+          <div class="aspect-[4/3] overflow-hidden rounded-lg border-b-4 border-signal">
+            <Image src={photo} alt={`Portrait of ${site.name}`} class="h-full w-full object-cover object-[50%_30%]" loading="eager" />
+          </div>
+        ) : (
+          <div class="overflow-hidden rounded-lg border-b-4 border-signal bg-ink/40">
+            <Constellation />
+          </div>
+        )}
 
         <div class="mt-4 space-y-3">
           {site.statGroups.map((group) => (
