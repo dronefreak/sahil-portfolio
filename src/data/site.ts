@@ -15,6 +15,8 @@ export const site = {
   nav: [
     { label: 'Home', href: '#home' },
     { label: 'Experience', href: '#experience' },
+    { label: 'Education', href: '#education' },
+    { label: 'Contact', href: '#contact' },
   ],
   focus: ['Broadcasting', 'Technology', 'Transport', 'Ticketing', 'Media'],
   links: {

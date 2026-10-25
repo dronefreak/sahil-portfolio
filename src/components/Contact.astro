@@ -1,0 +1,58 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+const links = [
+  { label: 'Email', value: 'sahilmkolhe@gmail.com', href: site.links.email, icon: 'mail' },
+  { label: 'LinkedIn', value: 'sahil-kolhe10', href: site.links.linkedin, icon: 'linkedin' },
+  { label: 'Instagram', value: '@sahil_kolhe10', href: site.links.instagram, icon: 'instagram' },
+  { label: 'Resume', value: 'Download PDF', href: site.links.resume, icon: 'download', download: 'Sahil-Kolhe-Resume.pdf' },
+] as const;
+---
+
+<section id="contact" class="bg-royal px-6 pb-8 pt-20 text-white">
+  <div class="mx-auto max-w-6xl">
+    <div class="grid items-center gap-10 md:grid-cols-[1.1fr_1fr] md:gap-16">
+      <div>
+        <p class="mb-3 flex items-center gap-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-white/80">
+          <span class="h-0.5 w-8 bg-amber" aria-hidden="true"></span>Contact
+        </p>
+        <h2 class="mb-5 font-display text-4xl font-bold uppercase leading-none sm:text-5xl">
+          Let’s <span class="rounded bg-ink px-2 text-amber">talk</span>
+        </h2>
+        <p class="mb-8 max-w-md text-lg text-white/90">
+          Hiring for an event, or want guidance on getting into sports? Book a call, or send a message.
+        </p>
+        <a href={site.links.topmate} target="_blank" rel="noopener" class="btn-primary !bg-ink hover:!bg-white">
+          <Icon name="calendar" />
+          Book a call
+        </a>
+      </div>
+
+      <ul class="divide-y divide-white/20 rounded-xl border border-white/25 bg-ink/25">
+        {links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              target={l.href.startsWith('http') ? '_blank' : undefined}
+              rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              download={'download' in l ? l.download : undefined}
+              class="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-ink/40 focus-visible:outline-2 focus-visible:outline-amber"
+            >
+              <span class="text-amber"><Icon name={l.icon} /></span>
+              <span class="flex-1">
+                <span class="block font-display text-sm font-semibold uppercase tracking-wider text-white/70">{l.label}</span>
+                <span class="break-all text-base">{l.value}</span>
+              </span>
+              <span class="text-white/50 transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <p class="mt-16 border-t border-white/20 pt-6 text-center text-sm text-white/70">
+      © {new Date().getFullYear()} {site.name}
+    </p>
+  </div>
+</section>
