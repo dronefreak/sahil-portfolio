@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import { projects, themes } from '../data/projects';
+
+const years = [...new Set(projects.map((p) => p.year))];
+---
+
+<section id="projects" class="bg-ink px-6 py-20 text-chalk">
+  <div class="mx-auto max-w-6xl">
+    <p class="mb-3 flex items-center gap-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-chalk/60">
+      <span class="h-0.5 w-8 bg-amber" aria-hidden="true"></span>Projects
+    </p>
+    <h2 class="mb-8 font-display text-4xl font-bold uppercase leading-none text-white sm:text-5xl">
+      Events I’ve <span class="text-gradient-sport">worked</span>
+    </h2>
+
+    <!-- Filter chips -->
+    <div id="project-filters" class="mb-12 flex flex-wrap gap-2" role="group" aria-label="Filter projects">
+      <button type="button" data-filter="all" aria-pressed="true" class="chip">All</button>
+      {Object.entries(themes).map(([key, label]) => (
+        <button type="button" data-filter={key} aria-pressed="false" class="chip">{label}</button>
+      ))}
+    </div>
+
+    <div class="space-y-14">
+      {years.map((year) => (
+        <div data-year-group>
+          <h3 class="mb-5 flex items-center gap-4 font-display text-2xl font-bold uppercase tracking-wider text-amber">
+            {year}
+            <span class="h-px flex-1 bg-chalk/15" aria-hidden="true"></span>
+          </h3>
+          <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.filter((p) => p.year === year).map((p) => (
+              <li data-tags={p.tags.join(' ')} class="flex flex-col overflow-hidden rounded-xl bg-chalk text-ink">
+                <div class="relative aspect-[16/9] overflow-hidden bg-white">
+                  {p.photo ? (
+                    <Image src={p.photo} width={640} alt={`${p.name}`} class="size-full object-cover" style={`object-position: ${p.focus ?? '50% 50%'}`} />
+                  ) : p.logo ? (
+                    <div class="flex size-full items-center justify-center p-6">
+                      <Image src={p.logo} height={160} alt={`${p.name} logo`} class="h-full w-auto max-w-full object-contain" />
+                    </div>
+                  ) : (
+                    <div class="flex size-full items-center justify-center bg-royal px-4 text-center font-display text-3xl font-bold uppercase leading-none text-white">
+                      {p.name}
+                    </div>
+                  )}
+                  {p.photo && p.logo && (
+                    <div class="absolute bottom-2 left-2 flex h-12 w-16 items-center justify-center rounded-lg bg-white p-1.5 shadow">
+                      <Image src={p.logo} height={80} alt="" class="h-full w-auto max-w-full object-contain" />
+                    </div>
+                  )}
+                </div>
+                <div class="flex flex-1 flex-col gap-1 border-t-4 border-signal p-4">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-royal">
+                    {p.date}{p.place && ` · ${p.place}`}
+                  </p>
+                  <h4 class="font-display text-xl font-bold uppercase leading-tight">{p.name}</h4>
+                  {p.role && <p class="text-sm text-ink/70">{p.role}</p>}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Filter chips: hide cards that don't match, and hide a year when it has no cards left.
+  const chips = document.querySelectorAll<HTMLButtonElement>('#project-filters .chip');
+  const cards = document.querySelectorAll<HTMLElement>('#projects li[data-tags]');
+  const groups = document.querySelectorAll<HTMLElement>('[data-year-group]');
+
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const f = chip.dataset.filter!;
+      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+      cards.forEach((card) => {
+        card.hidden = f !== 'all' && !card.dataset.tags!.split(' ').includes(f);
+      });
+      groups.forEach((g) => {
+        g.hidden = [...g.querySelectorAll('li')].every((li) => li.hidden);
+      });
+    }),
+  );
+</script>

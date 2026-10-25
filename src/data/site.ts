@@ -14,6 +14,7 @@ export const site = {
   // Nav links. Only sections that exist are listed; add the rest as each step lands.
   nav: [
     { label: 'Home', href: '#home' },
+    { label: 'Projects', href: '#projects' },
   ],
   focus: ['Broadcasting', 'Technology', 'Transport', 'Ticketing', 'Media'],
   links: {

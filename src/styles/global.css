@@ -65,6 +65,9 @@
 
 /* ---- Hero: reusable pieces ---- */
 @layer components {
+  .chip {
+    @apply rounded-full border border-chalk/30 px-4 py-1.5 font-display text-sm font-semibold uppercase tracking-wider text-chalk/80 transition duration-150 hover:border-amber hover:text-amber focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber aria-pressed:border-royal aria-pressed:bg-royal aria-pressed:text-white;
+  }
   .glass-card {
     background: rgb(255 255 255 / 0.03);
     backdrop-filter: blur(12px);
