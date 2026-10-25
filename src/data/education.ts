@@ -22,7 +22,7 @@ export const education: Degree[] = [
   },
   {
     level: 'Bachelor’s degree',
-    title: 'B.Tech, Mechanical Engineering',
+    title: 'Mechanical Engineering',
     school: 'Vellore Institute of Technology',
     dates: 'Jul 2018 – Jun 2022',
     activities: ['AIESEC', 'Team Anant', 'ASME', 'Sports Coordinator at Rivera'],
