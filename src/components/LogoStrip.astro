@@ -1,0 +1,101 @@
+---
+import { Image } from 'astro:assets';
+import { eventLogos } from '../data/eventLogos';
+---
+
+<div class="relative bg-chalk py-6 text-ink">
+  <p class="mb-4 text-center font-display text-sm font-semibold uppercase tracking-[0.3em] text-ink/60">
+    Events I’ve worked
+  </p>
+  <div class="marquee overflow-hidden" aria-label="Events I’ve worked. Drag to scroll.">
+    <div class="marquee-track flex w-max items-center">
+      {[0, 1].map((copy) => (
+        <ul class="flex items-center gap-12 pr-12" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {eventLogos.map((logo) => (
+            <li class="shrink-0">
+              <Image src={logo.src} alt={copy === 0 ? logo.name : ''} height={96} draggable="false" class="h-16 w-auto select-none object-contain sm:h-20" />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Drives the strip from JS so it can be dragged: auto-scrolls, follows the pointer
+  // 1:1 while held, then carries the drag speed as momentum and eases back to auto-scroll.
+  // Without JS the CSS animation in global.css still runs; with reduced motion it is a plain scrollable row.
+  const viewport = document.querySelector<HTMLElement>('.marquee');
+  const track = document.querySelector<HTMLElement>('.marquee-track');
+
+  if (viewport && track && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    viewport.classList.add('is-draggable');
+
+    const AUTO_SECONDS = 40; // time for one full loop, matches the old CSS speed
+    const MAX_SPEED = 4000; // px/s cap on throw speed
+    let half = track.scrollWidth / 2; // two identical copies, so one copy is half the track
+    let x = 0; // current offset, kept in (-half, 0]
+    let v = -half / AUTO_SECONDS; // current velocity, px/s (negative = moving left)
+    let hovering = false;
+    let dragging = false;
+    let lastPointerX = 0;
+    let lastMoveTime = 0;
+    let last = performance.now();
+
+    new ResizeObserver(() => (half = track.scrollWidth / 2)).observe(track);
+
+    const wrap = () => {
+      x %= half;
+      if (x > 0) x -= half;
+    };
+
+    const frame = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (!dragging) {
+        const target = hovering ? 0 : -half / AUTO_SECONDS;
+        v += (target - v) * Math.min(1, dt * 2.5); // ease toward auto speed (or rest while hovered)
+        x += v * dt;
+        wrap();
+      }
+      track.style.transform = `translate3d(${x}px,0,0)`;
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+
+    viewport.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovering = true; });
+    viewport.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') hovering = false; });
+
+    viewport.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      dragging = true;
+      v = 0;
+      lastPointerX = e.clientX;
+      lastMoveTime = e.timeStamp;
+      viewport.setPointerCapture(e.pointerId);
+      viewport.classList.add('is-dragging');
+    });
+
+    viewport.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - lastPointerX;
+      const dtMs = Math.max(e.timeStamp - lastMoveTime, 1);
+      x += dx; // 1:1 with the pointer
+      wrap();
+      v = Math.max(-MAX_SPEED, Math.min(MAX_SPEED, v * 0.4 + ((dx / dtMs) * 1000) * 0.6)); // smoothed release speed
+      lastPointerX = e.clientX;
+      lastMoveTime = e.timeStamp;
+    });
+
+    const release = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      viewport.classList.remove('is-dragging');
+      if (e.timeStamp - lastMoveTime > 100) v = 0; // held still before letting go: no throw
+      last = performance.now();
+    };
+    viewport.addEventListener('pointerup', release);
+    viewport.addEventListener('pointercancel', release);
+  }
+</script>

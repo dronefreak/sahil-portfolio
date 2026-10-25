@@ -1,0 +1,138 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+
+/* Palette from reference/color-palette.jpg. Use as bg-royal, text-ink, etc. */
+@theme {
+  --color-royal: #4758d6;
+  --color-ink: #201c1c;
+  --color-signal: #ea3a3a;
+  --color-chalk: #eeeded;
+  --color-amber: #e1811f;
+
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Leave room for the fixed nav when jumping to a section */
+  section[id] {
+    scroll-margin-top: 4rem;
+  }
+  body {
+    @apply bg-chalk font-sans text-ink antialiased;
+  }
+}
+
+/* Logo strip: slow continuous scroll, paused for users who prefer reduced motion */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+/* JS takes over the motion once it loads (see LogoStrip.astro) */
+.marquee.is-draggable {
+  cursor: grab;
+  touch-action: pan-y; /* horizontal swipes drag the strip, vertical swipes still scroll the page */
+  user-select: none;
+}
+.marquee.is-draggable.is-dragging {
+  cursor: grabbing;
+}
+.marquee.is-draggable .marquee-track {
+  animation: none;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* ---- Hero: reusable pieces ---- */
+@layer components {
+  .glass-card {
+    background: rgb(255 255 255 / 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgb(71 88 214 / 0.3);
+    border-radius: 12px;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-lg bg-royal px-6 py-2.5 font-display text-base font-bold uppercase tracking-wider text-white no-underline transition duration-150 hover:-translate-y-px hover:bg-white hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-lg border border-chalk/40 px-6 py-2.5 font-display text-base font-semibold uppercase tracking-wider text-chalk no-underline transition duration-150 hover:-translate-y-px hover:border-amber hover:text-amber focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber;
+  }
+}
+
+.text-gradient-sport {
+  background: linear-gradient(135deg, var(--color-amber) 0%, var(--color-signal) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgb(71 88 214 / 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(71 88 214 / 0.1) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 2px;
+  background: currentColor;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+/* Staggered entrance; delay comes from the inline --d variable */
+.reveal {
+  animation: fade-up 0.7s ease-out both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .pulse-dot,
+  .caret {
+    animation: none;
+  }
+}

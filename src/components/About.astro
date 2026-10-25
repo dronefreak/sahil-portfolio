@@ -1,0 +1,91 @@
+---
+import { site } from '../data/site';
+import { milestones, values } from '../data/about';
+
+const dot = { royal: 'bg-royal', signal: 'bg-signal', amber: 'bg-amber' };
+const bar = { royal: 'border-ink', signal: 'border-signal', amber: 'border-amber' };
+---
+
+<section id="about" class="bg-royal py-20 text-white md:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <p class="flex items-center gap-3 font-display text-sm font-semibold uppercase tracking-[0.3em] text-white/80">
+      <span class="h-1 w-8 bg-amber" aria-hidden="true"></span>About me
+    </p>
+
+    <div class="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-16">
+      <!-- Story -->
+      <div class="space-y-5 text-base leading-relaxed text-white/90 md:text-lg">
+        <h2 class="font-display text-4xl font-bold uppercase leading-[1] text-white sm:text-5xl md:text-6xl">
+          Chasing the whirlwind of sport <span class="box-decoration-clone bg-ink px-2 text-amber">since I was five.</span>
+        </h2>
+
+        <p class="pt-3 text-xl font-semibold text-white md:text-2xl">
+          Hi, I’m Sahil Kolhe, and I’ve been chasing the whirlwind of sport since I was five years old.
+        </p>
+        <p>
+          Back then, I wasn’t picky. If it had a ball, a goal, or a finish line, I was in. That curiosity grew into years of semi-professional football, where I learned what teamwork, discipline, and pressure feel like from the inside.
+        </p>
+        <p>
+          Then came a crossroads. I chose to pursue a bachelor’s degree in engineering, and my life as an athlete came to a close. But my love for sport never left. Engineering gave me something unexpected: a habit of breaking down complex problems and solving them with data and logic. When I graduated, one question kept coming back: <em>why not build a career around the thing I love most?</em>
+        </p>
+        <p>
+          So I did what any engineer would do: I researched. That led me to <strong>AMOS Sports Business School in Paris</strong>, where I pursued a master’s degree in <strong>Sports Management with Digital Transformation</strong>.
+        </p>
+        <p>
+          Before I even packed my bags for France, I wanted to prove my passion with action. I <strong>organized a football tournament in my own city</strong> to promote the game I grew up with. It was my first taste of running an event from idea to final whistle, and I was hooked.
+        </p>
+        <p>
+          Paris was where things accelerated. Between lectures, I threw myself into volunteering and short-term contracts at sporting events across Europe. My first big break came at the <strong>Formula 1 Dutch Grand Prix</strong>, where I volunteered in <strong>ticketing</strong>, getting fans through the gates and into the action at one of motorsport’s most electric events. Our university study trips opened doors to the global sports ecosystem, and every event taught me something no textbook could.
+        </p>
+        <p>
+          Then the stakes got bigger. At the <strong>Paris Olympics</strong>, I worked as a <strong>VIP Transport Coordinator</strong>, making sure the right people were in the right place at the right time on the world’s biggest sporting stage. And at the <strong>Asian Games 2026</strong>, I stepped into the role of <strong>Broadcast Manager</strong>, helping bring the action to audiences watching from across the continent and beyond. (The full story of each is in my <a href="#projects" class="font-semibold text-white underline decoration-amber decoration-2 underline-offset-4 hover:text-amber">Projects</a> section.)
+        </p>
+        <p>
+          Today, I’m a <strong>sports event specialist</strong> with experience across <strong>broadcasting, technology, transport, marketing, and media and communications</strong>. I love data-driven strategy, and I’m just as comfortable managing stakeholders as I am untangling a complicated problem or running operations on matchday. My goal is always the same: <strong>turn ideas into results people actually remember.</strong>
+        </p>
+      </div>
+
+      <!-- Journey: vertical timeline, stays in view beside the story on large screens -->
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="rounded-xl bg-ink p-6 text-chalk md:p-8">
+          <h3 class="font-display text-sm font-semibold uppercase tracking-[0.2em] text-amber">The journey</h3>
+          <ol class="mt-6 border-l border-chalk/20">
+            {milestones.map((m) => (
+              <li class="relative pb-6 pl-6 last:pb-0">
+                <span class={`absolute -left-[5px] top-1.5 size-2.5 rounded-full ${dot[m.color]}`} aria-hidden="true"></span>
+                <p class="font-display text-xs font-semibold uppercase tracking-[0.18em] text-chalk/50">{m.when}</p>
+                <p class="font-display text-lg font-semibold uppercase leading-tight">{m.title}</p>
+                <p class="mt-0.5 text-sm text-chalk/60">{m.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Values -->
+    <div class="mt-20">
+      <h3 class="font-display text-3xl font-bold uppercase text-white md:text-4xl">Three things drive my work</h3>
+      <div class="mt-8 grid gap-5 md:grid-cols-3">
+        {values.map((v, i) => (
+          <div class={`rounded-lg border-t-4 bg-white p-6 text-ink shadow-sm ${bar[v.color]}`}>
+            <p class="font-display text-sm font-semibold tracking-[0.2em] text-ink/40">0{i + 1}</p>
+            <h4 class="mt-1 font-display text-2xl font-bold uppercase">{v.title}</h4>
+            <p class="mt-2 text-ink/70">{v.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Invitation -->
+    <div class="mt-20 rounded-xl bg-ink px-6 py-12 text-center text-chalk md:px-12">
+      <p class="mx-auto max-w-2xl text-lg text-chalk/80">
+        Whether you’re looking to bring me onto your team or want advice on building your own path in sports, I’d love to hear from you.
+      </p>
+      <p class="text-gradient-sport mt-6 font-display text-4xl font-bold uppercase md:text-5xl">
+        Let’s make something worth cheering for.
+      </p>
+      <a href={site.links.topmate} target="_blank" rel="noopener" class="btn-primary mt-8">Book a call</a>
+    </div>
+  </div>
+</section>
