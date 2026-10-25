@@ -132,7 +132,7 @@ import { skills, links } from '../data/skills';
     ctx.textAlign = 'center';
     ctx.font = `500 ${small ? 10 : 11}px "Inter Variable", system-ui, sans-serif`;
     ctx.fillStyle = 'rgba(238,237,237,0.55)';
-    ctx.fillText(hot >= 0 ? nodes[hot].proof : 'Hover a skill to see where I used it', W / 2, H - 6);
+    if (hot >= 0) ctx.fillText(nodes[hot].proof, W / 2, H - 6);
   };
 
   const frame = (t: number) => {
