@@ -1,6 +1,5 @@
 import type { ImageMetadata } from 'astro:assets';
 import olympics from '../assets/logos/paris-2024-olympics.png';
-import paralympics from '../assets/logos/paris-2024-paralympics.png';
 import uefaWomen from '../assets/logos/uefa-womens-champions-league.png';
 import paraEuro from '../assets/logos/european-para-championships-2023.png';
 import formulaE from '../assets/logos/formula-e.png';
@@ -10,7 +9,6 @@ import tchoukball from '../assets/logos/tchoukball-nations-cup.png';
 import dutchGp from '../assets/events/f1-dutch-gp.jpg';
 import footballSummit from '../assets/events/world-football-summit.jpg';
 import olympicsPhoto from '../assets/events/paris-2024-olympics.jpg';
-import paralympicsPhoto from '../assets/events/paris-2024-paralympics.jpg';
 import tchoukballPhoto from '../assets/events/tchoukball-geneva.jpg';
 import formulaEPhoto from '../assets/events/formula-e.jpg';
 import paraEuroPhoto from '../assets/events/european-para-championships.jpg';
@@ -50,7 +48,6 @@ export const projects: Project[] = [
 
   { name: 'Tchoukball Nations Cup', year: 2024, date: 'Nov 2024 – Apr 2025', role: 'Social Media Production Coordinator', place: 'Switzerland', tags: ['broadcast'], logo: tchoukball },
   { name: 'Paris 2024 Olympic Games', year: 2024, date: 'Jul – Sep 2024', role: 'VIP Transport Coordinator', place: 'France', tags: ['transport', 'ops'], logo: olympics, photo: olympicsPhoto, focus: '50% 30%' },
-  { name: 'Paris 2024 Paralympic Games', year: 2024, date: '2024', place: 'France', tags: ['ops'], logo: paralympics, photo: paralympicsPhoto, focus: '50% 85%' },
   { name: 'European Athletics Championships', year: 2024, date: 'Jun 2024', role: 'TV Graphics Operator', place: 'Italy', tags: ['broadcast', 'tech'], logo: athletics, photo: athleticsPhoto, focus: '50% 40%' },
   { name: 'UEFA Women’s Champions League Final', year: 2024, date: 'May 2024', role: 'Event Transport', place: 'Spain', tags: ['transport'], logo: uefaWomen },
   { name: 'Formula E', year: 2024, date: 'May 2024', role: 'Gaming Arena Technology Volunteer', place: 'Germany', tags: ['tech'], logo: formulaE, photo: formulaEPhoto, focus: '50% 40%' },
